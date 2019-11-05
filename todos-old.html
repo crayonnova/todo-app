@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>todos text</title>
+    <style>
+        li{
+            list-style: none;
+        }
+        
+        li::after{
+            cursor: pointer;
+            display: none;
+            content:"x";
+            text-decoration: none;
+            margin-left : 10px;
+        }
+        li:hover::after{
+            display: inline;
+            
+        }
+        
+    </style>
+</head>
+<body>
+    <h1>Todo list</h1>
+    <input id="newTask" type="text" placeholder="eg.go school"><button id="btnAdd">Add</button>
+    <ul id="list">  
+    </ul>
+    <input type="text" id="search" placeholder="search task">
+    <script>
+             const todos = [
+                    {title:'hello',completed:true},
+                    {title:'world',completed:true},
+                    {title:'pro',completed:true}
+                ]; // todos array
+             
+                let btnAdd = document.getElementById('btnAdd') //create button
+                let text = document.getElementById('newTask')  //text
+                let ul = document.querySelector('#list')
+                let searchText = document.querySelector('#search')
+
+                btnAdd.addEventListener('click', createTask)
+                displayList()
+                
+            
+                searchText.addEventListener('input', searchTask)
+
+               
+                // search
+                function searchTask(e) {
+                    let tasks = document.querySelectorAll('#list li')
+                    
+                    tasks.forEach(task => {
+                        task.style.display = 'block'
+                        if(!task.textContent.toLowerCase().includes(e.target.value.toLowerCase())){
+                            task.style.display = 'none'
+                        }
+                    })
+                    
+                }
+                //display
+                function displayList() {
+                    if (todos.length > 0) {
+                        ul.innerHTML = "";
+                        todos.forEach(todo => {
+                            let newTask = document.createTextNode(todo.title);
+                            li = document.createElement('li');
+                            if (todo.completed) {
+                                li.setAttribute('class', 'strike')
+                            }
+                            li.appendChild(newTask);
+                            ul.appendChild(li)
+                        })
+                        let btnExit = document.querySelectorAll('li', '::after');
+                        btnExit.forEach(btn => {
+                            btn.addEventListener('click', deleteTask);
+                        })
+
+                    } else {
+                        ul.innerHTML = "No task!"
+                    }
+                }
+                //delete
+                function deleteTask() {
+                    let text = this.innerHTML;
+                    let index = todos.indexOf(text);
+                    todos.splice(index, 1);
+                    displayList();
+                }
+                //create
+                function createTask() {
+                    let newText = text.value.trim();
+                    
+                    if (!newText == "") {
+                        if (isExist(newText) == newText) {
+                            alert('already added')
+                        } else {
+
+                            todos.push({ 'title': text.value, 'completed': false })
+                            displayList();
+                        }
+                    } else {
+                        alert('empty');
+                        text.focus();
+                    }
+                }
+                //isExist -> create
+                function isExist(input) {
+                    return todos.find(todo => {
+                        if (todo == input) {
+                            text.select();
+                            return true;
+                        }
+                    })
+                }
+        
+
+
+        // const todos = []; // todos array
+        // let btnAdd = document.getElementById('btnAdd'); //create button
+        // let text = document.getElementById('newTask');  //text
+        // let ul = document.querySelector('ul');
+        // btnAdd.addEventListener('click', createTask);
+        // displayList();
+
+        // //display
+        // function displayList(){
+        //     if(todos.length > 0){
+        //         ul.innerHTML = "";
+        //         todos.forEach(todo =>{
+        //             let newTask = document.createTextNode(todo);
+        //             li = document.createElement('li');
+        //             li.appendChild(newTask);
+        //             ul.appendChild(li)  
+        //         })
+        //         let btnExit = document.querySelectorAll('li','::after');
+        //             btnExit.forEach(btn =>{
+        //                 btn.addEventListener('click',deleteTask);
+        //             })
+
+        //     }else{
+        //         ul.innerHTML = "No task!"
+        //     }
+        // }
+        // //delete
+        // function deleteTask(){
+        //     let text = this.innerHTML;
+        //     let index = todos.indexOf(text);
+        //     todos.splice(index,1);
+        //     displayList();
+        // }
+        // //create
+        // function createTask(){
+        //     let newText = text.value.trim();
+        //     // console.log(todos.includes(newText));
+        //     if(!newText == ""){
+        //     if(isExist(newText) == newText){
+        //         alert('already added')
+        //     }else{
+        //     todos.push(text.value)
+        //     displayList();
+        //     }
+        // }else{
+        //     alert('empty');
+        //     text.focus();
+        // }
+        // }
+        // //isExist -> create
+        // function isExist(input){
+        //     return todos.find(todo =>{
+        //         if(todo == input){
+        //             text.select();
+        //             return true;
+        //         }
+        //     })
+        // }
+        
+
+        
+
+
+
+        
+    </script>
+</body>
+</html>
