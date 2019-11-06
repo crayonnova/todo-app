@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const Hangman = function (word,guessRemaining,age) {
+            this.word = word
+            this.guessRemaining = guessRemaining
+            this.wordCount = this.word.length
+            this.levelCount = this.word.length * 0.6
+            this.wordArray = this.word.split('')
+            this.randomNumber = function (max){
+                
+                return Math.floor(Math.random() * Math.floor(this.wordCount))
+            }
+        
+        }
+    
+        Hangman.prototype.getWord = function(){
+            return this.word
+        }
+
+        Hangman.prototype.getPuzzle = function ()  {
+        
+          
+         for(let index=0 ; index <= (this.levelCount*2) ; index = index+2){
+            
+             let randomNum = this.randomNumber(this.wordCount)
+             if(this.wordArray[randomNum] !== ' '){
+                this.wordArray.splice(randomNum,1,'*')
+             }
+                 
+         }
+         return this.wordArray.join('')
+        }
+
+        const game1 = new Hangman('programmer life',3);
+        console.log(game1)
+        console.log(game1.getPuzzle())
+    </script>
+</body>
+</html>
